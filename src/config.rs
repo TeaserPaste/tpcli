@@ -1,6 +1,7 @@
 use anyhow::{Result, anyhow};
 use directories::ProjectDirs;
 use keyring::Entry;
+use log::{debug, warn};
 use serde::{Deserialize, Serialize};
 use std::fs;
 
@@ -48,11 +49,16 @@ impl ConfigManager {
     pub fn load_config() -> Result<Config> {
         if let Some(proj_dirs) = ProjectDirs::from("com", "teaserpaste", "tpcli") {
             let config_path = proj_dirs.config_dir().join("config.json");
+            debug!("Loading config from: {}", config_path.display());
             if config_path.exists() {
                 let content = fs::read_to_string(config_path)?;
                 let config: Config = serde_json::from_str(&content)?;
                 return Ok(config);
+            } else {
+                warn!("Config file not found at: {}. Using default.", config_path.display());
             }
+        } else {
+            warn!("Could not determine project directory. Using default config.");
         }
         Ok(Config::default())
     }

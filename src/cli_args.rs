@@ -10,9 +10,9 @@ pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
 
-    /// Debug mode enabled
-    #[arg(long, global = true)]
-    pub debug: bool,
+    /// Verbose mode. Increase for more detail (e.g., -v, -vv, -vvv)
+    #[arg(long = "verbose", short = 'v', action = clap::ArgAction::Count, global = true)]
+    pub verbose: u8,
 
     /// Helper to set token globally
     #[arg(long, global = true)]

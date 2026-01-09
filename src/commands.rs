@@ -8,6 +8,7 @@ use arboard::Clipboard;
 use colored::Colorize;
 use comfy_table::Table;
 use inquire::{Confirm, Password, Select, Text};
+use log::{debug, info, warn};
 use tempfile::tempdir;
 
 use crate::api::ApiClient;
@@ -47,10 +48,12 @@ pub fn handle_edit(args: EditArgs, token: Option<String>) -> Result<()> {
     let ext = get_file_extension(&snippet.language);
     let temp_dir = tempdir()?;
     let file_path = temp_dir.path().join(format!("snippet{}", ext));
-
+    
+    debug!("Creating temp file for editing: {}", file_path.display());
     fs::write(&file_path, &snippet.content)?;
 
     // 3. Edit file
+    info!("Opening external editor...");
     edit::edit_file(&file_path)?;
 
     let edited = fs::read_to_string(&file_path)?;
@@ -177,6 +180,7 @@ pub fn handle_clone(args: CloneArgs, token: Option<String>) -> Result<()> {
     };
 
     let output_filename = format!("{}{}", base_filename, correct_extension);
+    debug!("Writing snippet content to file: {}", output_filename);
     fs::write(&output_filename, snippet.content)?;
     println!(
         "\n{}\n",
@@ -366,6 +370,7 @@ pub fn handle_create(args: CreateArgs, token: Option<String>) -> Result<()> {
         let content = if let Some(c) = args.content {
             c
         } else if !atty::is(atty::Stream::Stdin) {
+            debug!("Reading content from stdin...");
             let mut buffer = String::new();
             io::stdin().read_to_string(&mut buffer)?;
             buffer.trim().to_string()
@@ -587,8 +592,8 @@ pub fn handle_search(args: SearchArgs, token: Option<String>, json_output: bool)
     let client = ApiClient::new(token);
 
     if !json_output {
-        println!(
-            "\nSearching for \"{}\" (limit: {}, from: {})...",
+        info!(
+            "Searching for \"{}\" (limit: {}, from: {})...",
             args.term, args.limit, args.from
         );
     }
@@ -659,7 +664,7 @@ pub fn handle_copy(args: CopyArgs, token: Option<String>) -> Result<()> {
 
 pub fn handle_stats(token: Option<String>) -> Result<()> {
     let client = ApiClient::new(token.clone());
-    println!("\nLoading statistics...");
+    info!("Loading statistics...");
 
     let user_info: crate::types::User =
         client.request("/getUserInfo", "GET", Option::<()>::None.as_ref())?;
@@ -821,8 +826,8 @@ fn install_dependencies(deps: &[String], language: &str, cwd: &Path, silent: boo
     full_args.extend(deps.iter().map(|s| s.as_str()));
 
     if !silent {
-        println!(
-            "\n> Installing dependencies: {} {}\n",
+        info!(
+            "Installing dependencies: {} {}",
             command,
             full_args.join(" ")
         );
@@ -899,6 +904,7 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
     let extension = get_file_extension(&snippet.language);
     let filename = format!("snippet{}", extension);
     let executable_file = temp_path.join(&filename);
+    debug!("Writing executable file: {}", executable_file.display());
     fs::write(&executable_file, &snippet.content)?;
 
     // Execution logic
@@ -950,8 +956,8 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
                 // compile then run
                 let exe_path = temp_path.join("snippet_bin");
                 if !args.silent {
-                    println!(
-                        "\n> Compiling: rustc {} -o {}\n",
+                    info!(
+                        "Compiling: rustc {} -o {}",
                         executable_file.display(),
                         exe_path.display()
                     );
@@ -972,8 +978,8 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
                 let compiler = if lang == "c" { "gcc" } else { "g++" };
                 let exe_path = temp_path.join("snippet_bin");
                 if !args.silent {
-                    println!(
-                        "\n> Compiling: {} {} -o {}\n",
+                    info!(
+                        "Compiling: {} {} -o {}",
                         compiler,
                         executable_file.display(),
                         exe_path.display()
@@ -999,7 +1005,7 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
                 // JS version: `java -cp cwd path.basename(executableFile, '.java')`
                 // This implies `javac` worked.
                 if !args.silent {
-                    println!("\n> Compiling: javac {}\n", executable_file.display());
+                    info!("Compiling: javac {}", executable_file.display());
                 }
                 let compile_status = Command::new("javac")
                     .arg(&executable_file)
@@ -1027,8 +1033,8 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
     };
 
     if !args.silent {
-        println!(
-            "\n> Running: {} {} (in {})\n",
+        info!(
+            "Running: {} {} (in {})",
             run_cmd,
             run_args.join(" "),
             temp_path.display()
@@ -1071,7 +1077,7 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
     if output.status.success() {
         let stdout_str = String::from_utf8_lossy(&output.stdout).to_string();
         if !args.silent && !capture_output {
-            println!("\n> Process finished.\n");
+            info!("Process finished successfully.");
         }
 
         if let Some(outfile) = args.output_file {

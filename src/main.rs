@@ -8,6 +8,7 @@ mod utils;
 use crate::cli_args::{Cli, Commands};
 use crate::commands::*;
 use clap::Parser;
+use log::LevelFilter;
 
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
@@ -24,12 +25,17 @@ fn main() -> anyhow::Result<()> {
 }
 
 fn run(cli: Cli) -> anyhow::Result<()> {
-    // If debug is on, maybe we should init logger?
-    // JS: if (debugIndex > -1) logger.init(true);
-    // We can use `env_logger` if we had it, or just print to stderr.
-    if cli.debug {
-        eprintln!("Debug mode enabled.");
-    }
+    let log_level = match cli.verbose {
+        0 => LevelFilter::Warn,
+        1 => LevelFilter::Info,
+        2 => LevelFilter::Debug,
+        _ => LevelFilter::Trace,
+    };
+
+    env_logger::Builder::new()
+        .filter_level(log_level)
+        .format_timestamp(None)
+        .init();
 
     let token = resolve_token(cli.token)?;
 
