@@ -35,9 +35,9 @@ impl ApiClient {
             debug!("Request Payload: {:?}", body);
             // Also log as JSON string for clearer view if debug is high enough or payload complex
             if log::log_enabled!(log::Level::Trace) {
-                 if let Ok(json_str) = serde_json::to_string(body) {
-                     trace!("Request JSON: {}", json_str);
-                 }
+                if let Ok(json_str) = serde_json::to_string(body) {
+                    trace!("Request JSON: {}", json_str);
+                }
             }
             request.send_json(body)
         } else {
@@ -49,7 +49,7 @@ impl ApiClient {
                 let status = resp.status();
                 info!("API Response Status: {}", status);
                 let text = resp.into_string()?;
-                
+
                 debug!("Response Body: {}", text);
 
                 // Try parsing as JSON first
@@ -65,7 +65,7 @@ impl ApiClient {
             Err(ureq::Error::Status(code, response)) => {
                 let text = response.into_string()?;
                 error!("API Error Response ({}): {}", code, text);
-                
+
                 // Try to parse error details
                 if let Ok(err_data) = serde_json::from_str::<ErrorResponse>(&text) {
                     if let Some(true) = err_data.requires_password {
@@ -82,7 +82,7 @@ impl ApiClient {
             Err(e) => {
                 error!("Request transport failed: {}", e);
                 Err(anyhow!("Request failed: {}", e))
-            },
+            }
         }
     }
 }

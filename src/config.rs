@@ -55,7 +55,10 @@ impl ConfigManager {
                 let config: Config = serde_json::from_str(&content)?;
                 return Ok(config);
             } else {
-                warn!("Config file not found at: {}. Using default.", config_path.display());
+                warn!(
+                    "Config file not found at: {}. Using default.",
+                    config_path.display()
+                );
             }
         } else {
             warn!("Could not determine project directory. Using default config.");
@@ -63,8 +66,6 @@ impl ConfigManager {
         Ok(Config::default())
     }
 
-    // Unused but good to have for future
-    #[allow(dead_code)]
     pub fn save_config(config: &Config) -> Result<()> {
         if let Some(proj_dirs) = ProjectDirs::from("com", "teaserpaste", "tpcli") {
             let config_dir = proj_dirs.config_dir();

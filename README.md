@@ -50,6 +50,24 @@ tpc config set token priv_YOUR_API_TOKEN
 
 The token is stored securely in your operating system's keychain/keyring.
 
+**Other Configuration Options:**
+
+You can also set default preferences:
+
+```sh
+# Set default language
+tpc config set default_language rust
+
+# Set default visibility
+tpc config set default_visibility private
+
+# View current config
+tpc config get default_language
+
+# Clear a config
+tpc config clear default_visibility
+```
+
 ## Usage
 
 Here are some common examples of how to use `tpc`.
@@ -91,6 +109,12 @@ Copy content directly to clipboard:
 tpc view <SNIPPET_ID> --copy
 ```
 
+View output as JSON (useful for scripting):
+
+```sh
+tpc view <SNIPPET_ID> --json
+```
+
 ### 3. Run a Snippet 🏃
 
 You can fetch and execute a snippet locally. `tpc` supports Python, Node.js, Rust, Go, C++, and more.
@@ -123,6 +147,9 @@ tpc search "rust web server" --limit 5
 * **Fork/Copy:** `tpc copy <ID>`
 * **Statistics:** `tpc stats`
 * **Delete:** `tpc delete <ID>`
+* **Edit:** `tpc edit <ID>` (Opens snippet in your default editor)
+* **Upgrade:** `tpc upgrade` (Updates `tpc` to the latest version. *Note: This only works if you installed via the installer script, not `cargo install`.*)
+* **Verbose Mode:** Use `-v`, `-vv`, or `-vvv` for more detailed logs.
 
 ## Help
 

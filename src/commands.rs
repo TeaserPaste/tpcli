@@ -48,7 +48,7 @@ pub fn handle_edit(args: EditArgs, token: Option<String>) -> Result<()> {
     let ext = get_file_extension(&snippet.language);
     let temp_dir = tempdir()?;
     let file_path = temp_dir.path().join(format!("snippet{}", ext));
-    
+
     debug!("Creating temp file for editing: {}", file_path.display());
     fs::write(&file_path, &snippet.content)?;
 
@@ -741,8 +741,36 @@ pub fn handle_config(args: ConfigArgs) -> Result<()> {
             if key == "token" {
                 ConfigManager::set_token(&value)?;
                 println!("\n{}\n", "✅ Token has been saved securely!".green());
+            } else if key == "default_language" {
+                let mut config = ConfigManager::load_config()?;
+                config.default_language = Some(normalize_lang(&value));
+                ConfigManager::save_config(&config)?;
+                println!(
+                    "\n{}\n",
+                    format!(
+                        "✅ Default language set to '{}'.",
+                        config.default_language.unwrap()
+                    )
+                    .green()
+                );
+            } else if key == "default_visibility" {
+                let valid_visibilities = ["public", "private", "unlisted"];
+                if !valid_visibilities.contains(&value.as_str()) {
+                    return Err(anyhow!(
+                        "Invalid visibility. Allowed values: public, private, unlisted"
+                    ));
+                }
+                let mut config = ConfigManager::load_config()?;
+                config.default_visibility = Some(value.clone());
+                ConfigManager::save_config(&config)?;
+                println!(
+                    "\n{}\n",
+                    format!("✅ Default visibility set to '{}'.", value).green()
+                );
             } else {
-                return Err(anyhow!("Invalid config key. Only 'token' is supported."));
+                return Err(anyhow!(
+                    "Invalid config key. Supported keys: 'token', 'default_language', 'default_visibility'."
+                ));
             }
         }
         ConfigCmd::Get { key } => {
@@ -751,12 +779,42 @@ pub fn handle_config(args: ConfigArgs) -> Result<()> {
                     Some(token) => println!("\n🔑 Current Token: {}\n", token),
                     None => println!("\nYou have not set a token.\n"),
                 }
+            } else if key == "default_language" {
+                let config = ConfigManager::load_config()?;
+                match config.default_language {
+                    Some(lang) => println!("\nDefault Language: {}\n", lang),
+                    None => println!("\nDefault language is not set.\n"),
+                }
+            } else if key == "default_visibility" {
+                let config = ConfigManager::load_config()?;
+                match config.default_visibility {
+                    Some(vis) => println!("\nDefault Visibility: {}\n", vis),
+                    None => println!("\nDefault visibility is not set.\n"),
+                }
+            } else {
+                return Err(anyhow!(
+                    "Invalid config key. Supported keys: 'token', 'default_language', 'default_visibility'."
+                ));
             }
         }
         ConfigCmd::Clear { key } => {
             if key == "token" {
                 ConfigManager::clear_token()?;
                 println!("\n{}\n", "✅ Token has been cleared.".green());
+            } else if key == "default_language" {
+                let mut config = ConfigManager::load_config()?;
+                config.default_language = None;
+                ConfigManager::save_config(&config)?;
+                println!("\n{}\n", "✅ Default language cleared.".green());
+            } else if key == "default_visibility" {
+                let mut config = ConfigManager::load_config()?;
+                config.default_visibility = None;
+                ConfigManager::save_config(&config)?;
+                println!("\n{}\n", "✅ Default visibility cleared.".green());
+            } else {
+                return Err(anyhow!(
+                    "Invalid config key. Supported keys: 'token', 'default_language', 'default_visibility'."
+                ));
             }
         }
     }

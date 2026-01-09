@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
-exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml"]
+exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml", "Cross.toml"]
 
 [package.metadata.wix]
 upgrade-guid = "88923E65-EE1B-492A-8438-E3E39FF8F130"

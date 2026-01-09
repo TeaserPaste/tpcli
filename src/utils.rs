@@ -59,10 +59,17 @@ pub fn normalize_lang(input: &str) -> String {
 }
 
 pub fn sanitize_filename(name: &str) -> String {
-    let s = name.replace(
+    // Replace non-alphanumeric (except . - _) with _
+    let mut s = name.replace(
         |c: char| !c.is_alphanumeric() && c != '.' && c != '-' && c != '_',
         "_",
     );
+    // Prevent path traversal by replacing .. with __
+    s = s.replace("..", "__");
+    // Prevent leading dots
+    if s.starts_with('.') {
+        s = format!("_{}", &s[1..]);
+    }
     s.chars().take(100).collect()
 }
 
@@ -98,5 +105,62 @@ pub fn parse_duration(duration_str: &str) -> Option<u64> {
         "h" => Some(value * 60 * 60 * 1000),
         "d" => Some(value * 24 * 60 * 60 * 1000),
         _ => Some(value), // default to ms
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_file_extension() {
+        assert_eq!(get_file_extension("javascript"), ".js");
+        assert_eq!(get_file_extension("rust"), ".rs");
+        assert_eq!(get_file_extension("unknown"), ".txt");
+    }
+
+    #[test]
+    fn test_get_lang_from_extension() {
+        assert_eq!(get_lang_from_extension(".js"), "javascript");
+        assert_eq!(get_lang_from_extension(".rs"), "rust");
+        assert_eq!(get_lang_from_extension(".foo"), "plaintext");
+    }
+
+    #[test]
+    fn test_normalize_lang() {
+        assert_eq!(normalize_lang("JS"), "javascript");
+        assert_eq!(normalize_lang("rust"), "rust");
+        assert_eq!(normalize_lang("c++"), "cpp");
+    }
+
+    #[test]
+    fn test_sanitize_filename() {
+        assert_eq!(sanitize_filename("valid_name"), "valid_name");
+        assert_eq!(sanitize_filename("invalid/name"), "invalid_name");
+        assert_eq!(
+            sanitize_filename("very long name with spaces"),
+            "very_long_name_with_spaces"
+        );
+
+        // Test path traversal prevention
+        assert_eq!(sanitize_filename(".."), "__");
+        assert_eq!(sanitize_filename("../bar"), "___bar");
+        assert_eq!(sanitize_filename("foo/../bar"), "foo____bar");
+
+        // Test leading dots
+        assert_eq!(sanitize_filename(".hidden"), "_hidden");
+
+        // Test mixed
+        assert_eq!(sanitize_filename("foo/bar"), "foo_bar");
+        assert_eq!(sanitize_filename("foo\\bar"), "foo_bar");
+    }
+
+    #[test]
+    fn test_parse_duration() {
+        assert_eq!(parse_duration("10ms"), Some(10));
+        assert_eq!(parse_duration("1s"), Some(1000));
+        assert_eq!(parse_duration("1m"), Some(60000));
+        assert_eq!(parse_duration(""), None);
+        assert_eq!(parse_duration("invalid"), None);
     }
 }
