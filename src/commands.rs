@@ -759,13 +759,12 @@ pub fn handle_config(args: ConfigArgs) -> Result<()> {
 }
 
 pub fn handle_upgrade() -> Result<()> {
-    println!("\n🚀 Checking for updates and upgrading...\n");
     let status = Command::new("tpc-update").status().context(
         "Failed to execute upgrade command. Make sure 'tpc-update' is installed and in your PATH.",
     )?;
 
     if status.success() {
-        println!("\n✅ Upgrade successful! Please restart your terminal/shell.\n");
+        println!("\nSuccessful\n");
     } else {
         println!("\n❌ Upgrade failed with exit code: {:?}\n", status.code());
     }
