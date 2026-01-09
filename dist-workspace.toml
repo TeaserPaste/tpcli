@@ -17,3 +17,4 @@ install-path = "CARGO_HOME"
 install-updater = true
 # The preferred Rust toolchain to use in CI (rustup toolchain syntax)
 rust-toolchain-version = "stable"
+aarch64-pc-windows-msvc = "windows-2025"
