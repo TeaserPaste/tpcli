@@ -9,6 +9,12 @@ readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
 
+[package.metadata.wix]
+upgrade-guid = "88923E65-EE1B-492A-8438-E3E39FF8F130"
+path-guid = "0F2B1E55-2975-4F7E-A783-C71346668C68"
+license = false
+eula = false
+
 [dependencies]
 clap = { version = "4.4", features = ["derive"] }
 inquire = "0.7.5"
@@ -28,3 +34,8 @@ comfy-table = "7.1"
 chrono = "0.4"
 base64 = "0.22"
 atty = "0.2.14"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

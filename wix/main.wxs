@@ -61,15 +61,16 @@
     <Product
         Id='*'
         Name='tpc'
-        UpgradeCode='C346866D-C17C-4798-976F-FB301985303A'
-        Manufacturer='CodeTease'
+        UpgradeCode='88923E65-EE1B-492A-8438-E3E39FF8F130'
+        Manufacturer='TeaserPaste'
         Language='1033'
         Codepage='1252'
         Version='$(var.Version)'>
 
         <Package Id='*'
             Keywords='Installer'
-            Manufacturer='CodeTease'
+            Description='CLI for TeaserPaste product'
+            Manufacturer='TeaserPaste'
             InstallerVersion='450'
             Languages='1033'
             Compressed='yes'
@@ -109,7 +110,7 @@
                     -->
 
                     <Directory Id='Bin' Name='bin'>
-                        <Component Id='Path' Guid='D217FAF5-71AA-44E2-9921-275A7871AEA4' KeyPath='yes'>
+                        <Component Id='Path' Guid='0F2B1E55-2975-4F7E-A783-C71346668C68' KeyPath='yes'>
                             <Environment
                                 Id='PATH'
                                 Name='PATH'
