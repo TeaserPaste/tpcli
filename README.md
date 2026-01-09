@@ -19,14 +19,12 @@ You can install `tpc` using the automated installer script (powered by [cargo-di
 **Linux & macOS:**
 ```sh
 curl --proto '=https' --tlsv1.2 -LsSf https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.sh | sh
-
 ```
 
 **Windows (PowerShell):**
 
 ```powershell
-irm https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.ps1 | iex
-
+powershell -ExecutionPolicy Bypass -c "irm https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.ps1 | iex"
 ```
 
 ### Method 2: Cargo
