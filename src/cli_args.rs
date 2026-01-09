@@ -1,8 +1,11 @@
-use clap::{Parser, Subcommand, Args};
+use clap::{Args, Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(name = "tp")]
-#[command(about = "CLI Client for TeaserPaste - View, create, and manage snippets.", version = "0.1.0")]
+#[command(
+    about = "CLI Client for TeaserPaste - View, create, and manage snippets.",
+    version = "0.1.0"
+)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,
@@ -14,10 +17,16 @@ pub struct Cli {
     /// Helper to set token globally
     #[arg(long, global = true)]
     pub token: Option<String>,
+
+    /// Output results as JSON
+    #[arg(long, global = true)]
+    pub json: bool,
 }
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// Edit a snippet
+    Edit(EditArgs),
     /// View a snippet
     View(ViewArgs),
     /// Download snippet content to a file
@@ -46,6 +55,15 @@ pub enum Commands {
     User(UserArgs),
     /// Manage CLI configuration
     Config(ConfigArgs),
+    /// Upgrade the CLI tool
+    Upgrade,
+}
+
+#[derive(Args)]
+pub struct EditArgs {
+    pub id: String,
+    #[arg(long)]
+    pub password: Option<String>,
 }
 
 #[derive(Args)]
@@ -156,7 +174,7 @@ pub struct CreateArgs {
 #[derive(Args)]
 pub struct UpdateArgs {
     pub id: String,
-    
+
     #[arg(long)]
     pub title: Option<String>,
     #[arg(long)]
