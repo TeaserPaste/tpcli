@@ -1,0 +1,11 @@
+Output/
+dist/
+node_modules/
+.vscode/
+
+*.vegh
+.veghcache/
+
+# Added by cargo
+
+/target
