@@ -4,7 +4,7 @@ use clap::{Args, Parser, Subcommand};
 #[command(name = "tp")]
 #[command(
     about = "CLI Client for TeaserPaste - View, create, and manage snippets.",
-    version = "0.1.0"
+    version = "0.2.1"
 )]
 pub struct Cli {
     #[command(subcommand)]

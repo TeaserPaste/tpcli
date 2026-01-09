@@ -26,6 +26,7 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/TeaserPaste/tpcli/relea
 ```powershell
 powershell -ExecutionPolicy Bypass -c "irm https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.ps1 | iex"
 ```
+> **Note for Windows ARM64 users:** Currently, we do not provide a native `aarch64-pc-windows-msvc` binary. Please use the `x86_64` version.
 
 ### Method 2: Cargo
 
