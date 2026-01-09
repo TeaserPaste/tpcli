@@ -8,6 +8,7 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
+documentation = "https://docs.teaserverse.online/triple-tool/teaserpaste/cli"
 exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml", "Cross.toml"]
 
 [package.metadata.wix]
