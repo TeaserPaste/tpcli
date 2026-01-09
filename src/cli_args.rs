@@ -2,7 +2,7 @@ use clap::{Parser, Subcommand, Args};
 
 #[derive(Parser)]
 #[command(name = "tp")]
-#[command(about = "CLI Client for TeaserPaste - View, create, and manage snippets.", version = "0.7.1")]
+#[command(about = "CLI Client for TeaserPaste - View, create, and manage snippets.", version = "0.1.0")]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Commands,

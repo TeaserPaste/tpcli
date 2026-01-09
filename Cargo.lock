@@ -2302,8 +2302,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "tpcli"
-version = "0.0.1"
+name = "tpc"
+version = "0.1.0"
 dependencies = [
  "anyhow",
  "arboard",
