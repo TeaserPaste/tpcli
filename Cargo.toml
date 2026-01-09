@@ -1,14 +1,15 @@
 [package]
 name = "tpc"
 description = "CLI for TeaserPaste product"
-version = "0.1.0" 
+version = "0.2.0" 
 edition = "2024"
 authors = ["TeaserPaste"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
-exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml"]
+documentation = "https://docs.teaserverse.online/triple-tool/teaserpaste/cli"
+exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml", "Cross.toml"]
 
 [package.metadata.wix]
 upgrade-guid = "88923E65-EE1B-492A-8438-E3E39FF8F130"
@@ -35,6 +36,8 @@ comfy-table = "7.1"
 chrono = "0.4"
 base64 = "0.22"
 atty = "0.2.14"
+log = "0.4.29"
+env_logger = "0.11.8"
 
 # The profile that 'dist' will build with
 [profile.dist]
