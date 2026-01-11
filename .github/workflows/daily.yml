@@ -7,6 +7,9 @@ on:
   # Allow manual triggering for testing
   workflow_dispatch:
 
+env:
+  TP_PUBLIC_KEY: "pub_569b383d-ee12-4677-92cb-a245f59ab8fb"
+
 jobs:
   run-test-linux:
     name: Test on Linux
@@ -19,14 +22,14 @@ jobs:
         run: tpc -V
 
       - name: Search
-        run: tpc search Teaser -vvv
+        run: tpc search Teaser -vvv --token $TP_PUBLIC_KEY
 
       - name: View 
-        run: tpc view l53Fec0HvvuM2GEcTbDe -vvv
+        run: tpc view l53Fec0HvvuM2GEcTbDe -vvv --token $TP_PUBLIC_KEY
 
       - name: Run 
         # This is Python Hello World snippet 
-        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv
+        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv --token TP_PUBLIC_KEY
 
   run-test-windows:
     name: Test on Windows
@@ -45,4 +48,4 @@ jobs:
         run: tpc view l53Fec0HvvuM2GEcTbDe -vvv
 
       - name: Run 
-        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv
+        run: tpc run 6de4Q78ePcltKRjAs4t8 -f -vvv
