@@ -1,0 +1,48 @@
+name: Daily Test
+
+on:
+  schedule:
+    # Runs daily at midnight UTC 
+    - cron: '0 0 * * *'
+  # Allow manual triggering for testing
+  workflow_dispatch:
+
+jobs:
+  run-test-linux:
+    name: Test on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install tpc
+        run: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.sh | sh
+
+      - name: Check 
+        run: tpc -V
+
+      - name: Search
+        run: tpc search Teaser -vvv
+
+      - name: View 
+        run: tpc view l53Fec0HvvuM2GEcTbDe -vvv
+
+      - name: Run 
+        # This is Python Hello World snippet 
+        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv
+
+  run-test-windows:
+    name: Test on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Install tpc
+        run: powershell -ExecutionPolicy Bypass -c "irm https://github.com/TeaserPaste/tpcli/releases/latest/download/tpc-installer.ps1 | iex"
+
+      - name: Check 
+        run: tpc -V
+
+      - name: Search
+        run: tpc search Teaser -vvv
+
+      - name: View 
+        run: tpc view l53Fec0HvvuM2GEcTbDe -vvv
+
+      - name: Run 
+        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv
