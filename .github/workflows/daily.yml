@@ -29,7 +29,11 @@ jobs:
 
       - name: Run 
         # This is Python Hello World snippet 
-        run: tp run 6de4Q78ePcltKRjAs4t8 -f -vvv --token TP_PUBLIC_KEY
+        run: tpc run 6de4Q78ePcltKRjAs4t8 -f -vvv --token $TP_PUBLIC_KEY
+
+      - name: Upgrade 
+        # Note: Just testing. We already at the latest version 
+        run: tpc upgrade
 
   run-test-windows:
     name: Test on Windows
@@ -49,3 +53,6 @@ jobs:
 
       - name: Run 
         run: tpc run 6de4Q78ePcltKRjAs4t8 -f -vvv
+
+      - name: Upgrade 
+        run: tpc upgrade
