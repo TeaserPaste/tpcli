@@ -33,7 +33,8 @@ jobs:
 
       - name: Upgrade 
         # Note: Just testing. We already at the latest version 
-        run: tpc upgrade
+        # Yeah, this thing requires token. Weird but I'll just add --token so it won't error
+        run: tpc upgrade --token $TP_PUBLIC_KEY
 
   run-test-windows:
     name: Test on Windows
