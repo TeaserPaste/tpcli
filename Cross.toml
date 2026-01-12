@@ -1,5 +1,0 @@
-[target.aarch64-pc-windows-msvc]
-pre-build = [
-    "rustup update stable",
-    "rustup default stable"
-]
