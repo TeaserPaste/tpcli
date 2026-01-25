@@ -8,7 +8,7 @@
 - **Execute Code**: Run snippets locally in various languages (Python, JS, Rust, Go, etc.) with `tpc run`.
 - **Dependency Management**: Automatically detects and installs dependencies for supported languages when running snippets.
 - **Secure**: Manages API tokens securely using the system keyring.
-- **Developer Friendly**: Syntax highlighting, clipboard integration, and interactive modes.
+- **Developer Friendly**: Clipboard integration, and interactive modes.
 
 ## Installation
 
@@ -98,7 +98,7 @@ echo "console.log('Hello World')" | tpc create --title "Hello" --language javasc
 
 ### 2. View a Snippet
 
-View a snippet with syntax highlighting:
+View a snippet:
 
 ```sh
 tpc view <SNIPPET_ID>
