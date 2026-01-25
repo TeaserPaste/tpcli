@@ -15,7 +15,7 @@ use crate::types::{CreateSnippetRequest, CreateSnippetResponse};
 use crate::utils::get_file_extension;
 use crate::config::ConfigManager;
 
-fn detect_dependencies(content: &str, language: &str) -> Vec<String> {
+pub fn detect_dependencies(content: &str, language: &str) -> Vec<String> {
     let lang = language.to_lowercase();
     let mut deps = std::collections::HashSet::new();
 
@@ -89,6 +89,50 @@ fn install_dependencies(deps: &[String], language: &str, cwd: &Path, silent: boo
         return Err(anyhow!("Dependency installation failed"));
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_detect_dependencies_js() {
+        let content = r#"
+            const axios = require('axios');
+            import React from 'react';
+            import { useState } from 'react';
+            const fs = require('fs'); // Node built-in, but our regex might pick it up. Implementation should filter?
+            // Actually, current implementation allows anything in require/import.
+            // But it filters ./ and ../
+            const local = require('./local');
+        "#;
+        let deps = detect_dependencies(content, "javascript");
+        assert!(deps.contains(&"axios".to_string()));
+        assert!(deps.contains(&"react".to_string()));
+        // "fs" is built-in but regex picks it up. If we don't have a blacklist, it's there.
+        // "./local" should be filtered.
+        assert!(!deps.contains(&"./local".to_string()));
+    }
+
+    #[test]
+    fn test_detect_dependencies_python() {
+        let content = r#"
+            import requests
+            from flask import Flask
+            import os # Standard lib
+            from . import local
+        "#;
+        let deps = detect_dependencies(content, "python");
+        assert!(deps.contains(&"requests".to_string()));
+        assert!(deps.contains(&"flask".to_string()));
+        assert!(deps.contains(&"os".to_string()));
+        // "from . import local" -> matches group 1 (".")?
+        // Regex: (?:from\s+([^\s]+)\s+import|import\s+([^\s]+))
+        // "from . import" -> group 1 is "."
+        // "." might be in deps. Current impl doesn't filter "." for python specifically?
+        // But "." usually means local package which pip can't install unless it's a valid package name.
+        // Let's see what happens.
+    }
 }
 
 pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {

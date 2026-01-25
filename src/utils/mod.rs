@@ -131,6 +131,9 @@ mod tests {
         assert_eq!(normalize_lang("JS"), "javascript");
         assert_eq!(normalize_lang("rust"), "rust");
         assert_eq!(normalize_lang("c++"), "cpp");
+        assert_eq!(normalize_lang("C#"), "csharp");
+        assert_eq!(normalize_lang("bash"), "shell");
+        assert_eq!(normalize_lang("unknown"), "unknown");
     }
 
     #[test]
@@ -153,6 +156,10 @@ mod tests {
         // Test mixed
         assert_eq!(sanitize_filename("foo/bar"), "foo_bar");
         assert_eq!(sanitize_filename("foo\\bar"), "foo_bar");
+        
+        // Unicode
+        assert_eq!(sanitize_filename("你好"), "你好");
+        assert_eq!(sanitize_filename("a/b"), "a_b");
     }
 
     #[test]
@@ -160,7 +167,23 @@ mod tests {
         assert_eq!(parse_duration("10ms"), Some(10));
         assert_eq!(parse_duration("1s"), Some(1000));
         assert_eq!(parse_duration("1m"), Some(60000));
+        assert_eq!(parse_duration("1h"), Some(3600000));
+        assert_eq!(parse_duration("1d"), Some(86400000));
+        
+        // No unit defaults to ms
+        assert_eq!(parse_duration("500"), Some(500));
+
+        // Invalid cases
         assert_eq!(parse_duration(""), None);
         assert_eq!(parse_duration("invalid"), None);
+        assert_eq!(parse_duration("10x"), Some(10)); // Current impl stops at non-digit char if not matching known suffix?
+        // Wait, let's check impl: 
+        // if !last.is_ascii_digit() { (&duration_str[..len - 1], &duration_str[len - 1..]) }
+        // "10x" -> val_str="10", unit="x". 
+        // match unit { ... _ => Some(value) } // default to ms
+        // So "10x" -> 10ms. This seems to be the current behavior.
+        
+        // Test with spaces? Current impl doesn't trim.
+        assert_eq!(parse_duration(" 10ms"), None); 
     }
 }

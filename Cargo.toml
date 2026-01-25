@@ -1,6 +1,6 @@
 [package]
 name = "tpc"
-description = "CLI for TeaserPaste product"
+description = "CLI for TeaserPaste"
 version = "0.2.3" 
 edition = "2024"
 authors = ["TeaserPaste"]
@@ -9,7 +9,7 @@ readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
 documentation = "https://docs.teaserverse.online/triple-tool/teaserpaste/cli"
-exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml", "Cross.toml"]
+exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml"]
 
 [package.metadata.wix]
 upgrade-guid = "88923E65-EE1B-492A-8438-E3E39FF8F130"
