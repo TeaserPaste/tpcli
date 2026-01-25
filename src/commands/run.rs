@@ -164,10 +164,12 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
         
         if let Some(s) = runner_str {
             let file_path_str = executable_file.to_string_lossy();
+            let quoted_path = shlex::try_quote(&file_path_str)
+                .map_err(|_| anyhow!("Invalid filename containing null bytes"))?;
             let cmd_str = if s.contains("{{file}}") {
-                s.replace("{{file}}", &file_path_str)
+                s.replace("{{file}}", &quoted_path)
             } else {
-                format!("{} {}", s, file_path_str)
+                format!("{} {}", s, quoted_path)
             };
             
             let parts = shlex::split(&cmd_str)

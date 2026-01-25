@@ -122,7 +122,8 @@ pub fn handle_view(args: ViewArgs, token: Option<String>, json_output: bool) -> 
     );
     println!("Language: {}", snippet.language);
     if let Some(tags) = snippet.tags {
-        println!("Tags: {}", tags.join(", "));
+        let tags_str: String = tags.join(", ");
+        println!("Tags: {}", tags_str);
     }
     println!("Visibility: {}", snippet.visibility);
     println!("-------------------------------------");

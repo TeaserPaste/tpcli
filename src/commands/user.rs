@@ -100,7 +100,7 @@ pub fn handle_stats(token: Option<String>) -> Result<()> {
         *visibility_counts
             .entry(snippet.visibility.clone())
             .or_insert(0) += 1;
-        *language_counts.entry(snippet.language.clone()).or_insert(0) += 1;
+        *language_counts.entry(snippet.language.clone()).or_insert(0i32) += 1;
     }
 
     let mut top_languages: Vec<_> = language_counts.into_iter().collect();

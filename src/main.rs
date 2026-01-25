@@ -5,10 +5,10 @@ mod config;
 mod types;
 mod utils;
 
-use crate::cli_args::{Cli, Commands};
-use crate::commands::resolve_token;
 use clap::Parser;
 use log::LevelFilter;
+use crate::cli_args::{Cli, Commands};
+use crate::commands::resolve_token;
 
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
