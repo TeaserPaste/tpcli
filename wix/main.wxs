@@ -69,7 +69,7 @@
 
         <Package Id='*'
             Keywords='Installer'
-            Description='CLI for TeaserPaste product'
+            Description='CLI for TeaserPaste'
             Manufacturer='TeaserPaste'
             InstallerVersion='450'
             Languages='1033'
