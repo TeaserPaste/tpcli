@@ -118,6 +118,9 @@ pub struct RunArgs {
     pub command: Option<Vec<String>>,
 
     #[arg(long)]
+    pub with_runner: Option<String>,
+
+    #[arg(long)]
     pub install_deps: bool,
     #[arg(long, value_parser = parse_key_val::<String, String>)]
     pub env: Vec<(String, String)>,

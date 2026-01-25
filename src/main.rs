@@ -6,7 +6,7 @@ mod types;
 mod utils;
 
 use crate::cli_args::{Cli, Commands};
-use crate::commands::*;
+use crate::commands::resolve_token;
 use clap::Parser;
 use log::LevelFilter;
 
@@ -40,21 +40,21 @@ fn run(cli: Cli) -> anyhow::Result<()> {
     let token = resolve_token(cli.token)?;
 
     match cli.command {
-        Commands::Edit(args) => handle_edit(args, token),
-        Commands::View(args) => handle_view(args, token, cli.json),
-        Commands::Clone(args) => handle_clone(args, token),
-        Commands::Copy(args) => handle_copy(args, token),
-        Commands::Star(args) => handle_star(args, token),
-        Commands::Restore(args) => handle_restore(args, token),
-        Commands::Run(args) => handle_run(args, token),
-        Commands::Stats => handle_stats(token),
-        Commands::List(args) => handle_list(args, token, cli.json),
-        Commands::Create(args) => handle_create(args, token),
-        Commands::Update(args) => handle_update(args, token),
-        Commands::Delete(args) => handle_delete(args, token),
-        Commands::Search(args) => handle_search(args, token, cli.json),
-        Commands::User(args) => handle_user(args, token, cli.json),
-        Commands::Config(args) => handle_config(args),
-        Commands::Upgrade => handle_upgrade(),
+        Commands::Edit(args) => commands::snippet::handle_edit(args, token),
+        Commands::View(args) => commands::snippet::handle_view(args, token, cli.json),
+        Commands::Clone(args) => commands::snippet::handle_clone(args, token),
+        Commands::Copy(args) => commands::snippet::handle_copy(args, token),
+        Commands::Star(args) => commands::snippet::handle_star(args, token),
+        Commands::Restore(args) => commands::snippet::handle_restore(args, token),
+        Commands::Run(args) => commands::run::handle_run(args, token),
+        Commands::Stats => commands::user::handle_stats(token),
+        Commands::List(args) => commands::snippet::handle_list(args, token, cli.json),
+        Commands::Create(args) => commands::snippet::handle_create(args, token),
+        Commands::Update(args) => commands::snippet::handle_update(args, token),
+        Commands::Delete(args) => commands::snippet::handle_delete(args, token),
+        Commands::Search(args) => commands::snippet::handle_search(args, token, cli.json),
+        Commands::User(args) => commands::user::handle_user(args, token, cli.json),
+        Commands::Config(args) => commands::config::handle_config(args),
+        Commands::Upgrade => commands::system::handle_upgrade(),
     }
 }

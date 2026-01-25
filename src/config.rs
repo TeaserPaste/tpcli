@@ -12,6 +12,7 @@ const ACCOUNT_NAME: &str = "api_token";
 pub struct Config {
     pub default_language: Option<String>,
     pub default_visibility: Option<String>,
+    pub runners: Option<std::collections::HashMap<String, String>>,
 }
 
 pub struct ConfigManager;
