@@ -134,6 +134,26 @@ tpc run <SNIPPET_ID>
 tpc run <SNIPPET_ID> --install-deps --env DEBUG=true
 ```
 
+**Custom Runners (Dynamic Runner):**
+
+You can customize the command used to execute snippets.
+
+*   **Via CLI flag:** Use `--with-runner` to specify a command. Use `{{file}}` as a placeholder for the script path.
+    ```sh
+    tpc run <ID> --with-runner "python3 {{file}}"
+    tpc run <ID> --with-runner "deno run --allow-net {{file}}"
+    ```
+
+*   **Via Config:** Add a `runners` map to your `config.json` file (typically in `~/.config/tpcli/config.json`).
+    ```json
+    {
+      "runners": {
+        "python": "python3 {{file}}",
+        "javascript": "deno run {{file}}"
+      }
+    }
+    ```
+
 ### 4. Search Snippets
 
 Search for public snippets by query:
