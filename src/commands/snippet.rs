@@ -12,8 +12,8 @@ use tempfile::tempdir;
 
 use crate::api::ApiClient;
 use crate::cli_args::{
-    CloneArgs, CopyArgs, CreateArgs, DeleteArgs, EditArgs, ListArgs,
-    RestoreArgs, SearchArgs, StarArgs, UpdateArgs, ViewArgs,
+    CloneArgs, CopyArgs, CreateArgs, DeleteArgs, EditArgs, ListArgs, RestoreArgs, SearchArgs,
+    StarArgs, UpdateArgs, ViewArgs,
 };
 use crate::config::ConfigManager;
 use crate::types::{

@@ -4,16 +4,16 @@ use std::process::{Command, Stdio};
 
 use anyhow::{Context, Result, anyhow};
 use arboard::Clipboard;
-use inquire::{Confirm};
+use inquire::Confirm;
 use log::{debug, info};
-use tempfile::tempdir;
 use regex::Regex;
+use tempfile::tempdir;
 
 use crate::api::ApiClient;
 use crate::cli_args::RunArgs;
+use crate::config::ConfigManager;
 use crate::types::{CreateSnippetRequest, CreateSnippetResponse};
 use crate::utils::get_file_extension;
-use crate::config::ConfigManager;
 
 pub fn detect_dependencies(content: &str, language: &str) -> Vec<String> {
     let lang = language.to_lowercase();
@@ -203,9 +203,11 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
         (cmds[0].clone(), cmds[1..].to_vec())
     } else {
         // Resolve runner string from flag or config
-        let runner_str = args.with_runner.as_ref()
+        let runner_str = args
+            .with_runner
+            .as_ref()
             .or_else(|| config.runners.as_ref().and_then(|r| r.get(&lang)));
-        
+
         if let Some(s) = runner_str {
             let file_path_str = executable_file.to_string_lossy();
             let quoted_path = shlex::try_quote(&file_path_str)
@@ -215,10 +217,10 @@ pub fn handle_run(args: RunArgs, token: Option<String>) -> Result<()> {
             } else {
                 format!("{} {}", s, quoted_path)
             };
-            
+
             let parts = shlex::split(&cmd_str)
                 .ok_or_else(|| anyhow!("Failed to parse runner command: {}", s))?;
-            
+
             if parts.is_empty() {
                 return Err(anyhow!("Runner command is empty"));
             }
