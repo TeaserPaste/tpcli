@@ -38,6 +38,14 @@ cargo install tpc
 
 *Note: Ensure `~/.cargo/bin` is in your PATH.*
 
+### Method 3: Homebrew
+
+For macOS and Linux users:
+
+```sh
+brew install TeaserPaste/tools/tpc
+```
+
 ## Configuration
 
 Before creating or managing private snippets, you need to authenticate.
