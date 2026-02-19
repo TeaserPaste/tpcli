@@ -55,8 +55,6 @@ pub enum Commands {
     User(UserArgs),
     /// Manage CLI configuration
     Config(ConfigArgs),
-    /// Upgrade the CLI tool
-    Upgrade,
 }
 
 #[derive(Args)]
@@ -204,8 +202,6 @@ pub struct SearchArgs {
     pub term: String,
     #[arg(long, default_value_t = 10)]
     pub limit: u32,
-    #[arg(long, default_value_t = 0)]
-    pub from: u32,
 }
 
 #[derive(Subcommand)]
