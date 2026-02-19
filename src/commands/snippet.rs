@@ -509,10 +509,7 @@ pub fn handle_search(args: SearchArgs, token: Option<String>, json_output: bool)
     let client = ApiClient::new(token);
 
     if !json_output {
-        info!(
-            "Searching for \"{}\" (limit: {}, from: {})...",
-            args.term, args.limit, args.from
-        );
+        info!("Searching for \"{}\" (limit: {})...", args.term, args.limit);
     }
 
     let res: crate::types::SearchSnippetsResponse = client.request(
@@ -521,7 +518,6 @@ pub fn handle_search(args: SearchArgs, token: Option<String>, json_output: bool)
         Some(&SearchSnippetsRequest {
             term: args.term,
             size: args.limit,
-            from: args.from,
         }),
     )?;
 
@@ -565,8 +561,7 @@ pub fn handle_copy(args: CopyArgs, token: Option<String>) -> Result<()> {
         "/copySnippet",
         "POST",
         Some(&serde_json::json!({
-            "snippetId": args.id,
-            "password": args.password
+            "snippetId": args.id
         })),
     )?;
 

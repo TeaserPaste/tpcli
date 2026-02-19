@@ -1,21 +1,16 @@
 [package]
 name = "tpc"
 description = "CLI for TeaserPaste"
-version = "0.2.3" 
+version = "0.3.0" 
 edition = "2024"
 authors = ["TeaserPaste"]
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 repository = "https://github.com/TeaserPaste/tpcli"
+homepage = "https://github.com/TeaserPaste/tpcli"
 keywords = ["cli", "tp", "teaserpaste", "cargo"]
 documentation = "https://docs.teaserverse.online/triple-tool/teaserpaste/cli"
-exclude = ["target/*", "wix/*", ".github/*", "dist-workspace.toml"]
-
-[package.metadata.wix]
-upgrade-guid = "88923E65-EE1B-492A-8438-E3E39FF8F130"
-path-guid = "0F2B1E55-2975-4F7E-A783-C71346668C68"
-license = false
-eula = false
+exclude = ["target/*", ".github/*", "dist-workspace.toml"]
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }

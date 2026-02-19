@@ -70,7 +70,6 @@ pub struct UpdateSnippetRequest {
 pub struct SearchSnippetsRequest {
     pub term: String,
     pub size: u32,
-    pub from: u32,
 }
 
 #[derive(Serialize, Deserialize, Debug)]

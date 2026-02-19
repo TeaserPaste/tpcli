@@ -4,7 +4,6 @@ use anyhow::Result;
 pub mod config;
 pub mod run;
 pub mod snippet;
-pub mod system;
 pub mod user;
 
 pub fn resolve_token(arg_token: Option<String>) -> Result<Option<String>> {

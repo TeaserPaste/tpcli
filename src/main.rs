@@ -55,6 +55,5 @@ fn run(cli: Cli) -> anyhow::Result<()> {
         Commands::Search(args) => commands::snippet::handle_search(args, token, cli.json),
         Commands::User(args) => commands::user::handle_user(args, token, cli.json),
         Commands::Config(args) => commands::config::handle_config(args),
-        Commands::Upgrade => commands::system::handle_upgrade(),
     }
 }

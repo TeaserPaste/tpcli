@@ -35,9 +35,10 @@ impl ApiClient {
             debug!("Request Payload: {:?}", body);
             // Also log as JSON string for clearer view if debug is high enough or payload complex
             if log::log_enabled!(log::Level::Trace)
-                && let Ok(json_str) = serde_json::to_string(body) {
-                    trace!("Request JSON: {}", json_str);
-                }
+                && let Ok(json_str) = serde_json::to_string(body)
+            {
+                trace!("Request JSON: {}", json_str);
+            }
             request.send_json(body)
         } else {
             request.call()

@@ -38,6 +38,14 @@ cargo install tpc
 
 *Note: Ensure `~/.cargo/bin` is in your PATH.*
 
+### Method 3: Homebrew
+
+For macOS and Linux users:
+
+```sh
+brew install TeaserPaste/tools/tpc
+```
+
 ## Configuration
 
 Before creating or managing private snippets, you need to authenticate.
@@ -46,7 +54,7 @@ Before creating or managing private snippets, you need to authenticate.
 2. Run the following command:
 
 ```sh
-tpc config set token priv_YOUR_API_TOKEN
+tpc config set token YOUR_API_TOKEN
 ```
 
 The token is stored securely in your operating system's keychain/keyring.
@@ -169,7 +177,6 @@ tpc search "rust web server" --limit 5
 * **Statistics:** `tpc stats`
 * **Delete:** `tpc delete <ID>`
 * **Edit:** `tpc edit <ID>` (Opens snippet in your default editor)
-* **Upgrade:** `tpc upgrade` (Updates `tpc` to the latest version. *Note: This only works if you installed via the installer script, not `cargo install`.*)
 * **Verbose Mode:** Use `-v`, `-vv`, or `-vvv` for more detailed logs.
 
 ## Help
