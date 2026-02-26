@@ -54,6 +54,3 @@ jobs:
 
       - name: Run 
         run: tpc run 6de4Q78ePcltKRjAs4t8 -f -vvv
-
-      - name: Upgrade 
-        run: tpc upgrade
