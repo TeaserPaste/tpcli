@@ -31,11 +31,6 @@ jobs:
         # This is Python Hello World snippet 
         run: tpc run 6de4Q78ePcltKRjAs4t8 -f -vvv --token $TP_PUBLIC_KEY
 
-      - name: Upgrade 
-        # Note: Just testing. We already at the latest version 
-        # Yeah, this thing requires token. Weird but I'll just add --token so it won't error
-        run: tpc upgrade --token $TP_PUBLIC_KEY
-
   run-test-windows:
     name: Test on Windows
     runs-on: windows-latest
