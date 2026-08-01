@@ -4,7 +4,7 @@ use log::{debug, error, info, trace};
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 
-const BASE_API_URL: &str = "https://paste-api.teaserverse.online";
+const BASE_API_URL: &str = "https://paste-api.vercel.app";
 
 pub struct ApiClient {
     token: Option<String>,

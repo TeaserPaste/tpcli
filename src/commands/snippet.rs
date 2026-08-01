@@ -74,7 +74,7 @@ pub fn handle_edit(args: EditArgs, token: Option<String>) -> Result<()> {
 
 pub fn handle_view(args: ViewArgs, token: Option<String>, json_output: bool) -> Result<()> {
     if args.url {
-        println!("\nhttps://paste.teaserverse.online/snippet/{}\n", args.id);
+        println!("\nhttps://pastevault.web.app/snippet/{}\n", args.id);
         return Ok(());
     }
 
@@ -568,7 +568,7 @@ pub fn handle_copy(args: CopyArgs, token: Option<String>) -> Result<()> {
     println!("\n{}", format!("✅ {}", res.message).green());
     println!("New snippet ID (private): {}", res.new_snippet_id);
     println!(
-        "URL: https://paste.teaserverse.online/snippet/{}\n",
+        "URL: https://pastevault.web.app/snippet/{}\n",
         res.new_snippet_id
     );
     Ok(())
